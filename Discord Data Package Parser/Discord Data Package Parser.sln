@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discord Data Package Parser", "Discord Data Package Parser\Discord Data Package Parser.csproj", "{EE718B24-842A-4EC8-AAC2-949262E070EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE718B24-842A-4EC8-AAC2-949262E070EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE718B24-842A-4EC8-AAC2-949262E070EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE718B24-842A-4EC8-AAC2-949262E070EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE718B24-842A-4EC8-AAC2-949262E070EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BA21127-2995-458F-A5AB-A7DC5C3C4C57}
+	EndGlobalSection
+EndGlobal
