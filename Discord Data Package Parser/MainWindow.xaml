@@ -6,38 +6,42 @@
         xmlns:local="clr-namespace:Discord_Data_Package_Parser"
         mc:Ignorable="d"
 		ResizeMode="CanMinimize"
-        Title="Discord Data Package Parser" Height="450" Width="800" MaxHeight="450" MaxWidth="800">
+        Title="Discord Data Package Parser" Height="450" Width="800" MaxHeight="450" MaxWidth="800" Icon="ddpp_S8f_icon.ico">
 	<Grid x:Name="grid" Background="#FF2C2F33">
 		<TabControl x:Name="tabMessages" HorizontalAlignment="Left" Height="371" Margin="10,40,0,10" Width="200">
 			<TabItem Header="DMs">
-				<Grid Background="#FF99AAB5"/>
+				<Grid Background="#FF99AAB5">
+					<ListBox x:Name="lstDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Servers">
-				<Grid Background="#FFE5E5E5"/>
+				<Grid Background="#FFE5E5E5">
+					<ListBox x:Name="lstServers" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+				</Grid>
 			</TabItem>
 		</TabControl>
 		<DockPanel Grid.ColumnSpan="2">
-			<Menu x:Name="menuContext" DockPanel.Dock="Top">
+			<Menu x:Name="MenuContext" DockPanel.Dock="Top">
 				<MenuItem Header="_File">
 					<MenuItem Header="_Open">
-						<MenuItem Header="Open Folder"/>
-						<MenuItem Header="Open From ZIP"/>
+						<MenuItem x:Name="MenuOpenFolder" Header="Open Folder" Click="MenuOpenFolder_Click"/>
+						<MenuItem x:Name="MenuOpenZIP" Header="Open From ZIP" Click="MenuOpenZIP_Click"/>
 					</MenuItem>
 					<Separator />
-					<MenuItem Header="_Close"/>
+					<MenuItem x:Name="MenuClose" Header="_Close" Click="MenuClose_Click"/>
 				</MenuItem>
 				<MenuItem Header="Options">
-					<MenuItem Header="Dark/Light Theme" IsEnabled="False"/>
+					<MenuItem x:Name="MenuTheme" Header="Dark/Light Theme" Click="MenuTheme_Click"/>
 				</MenuItem>
 				<MenuItem Header="Help">
-					<MenuItem Header="About"/>
+					<MenuItem x:Name="MenuAbout" Header="About"/>
 				</MenuItem>
 			</Menu>
 			<StackPanel>
 
 			</StackPanel>
 		</DockPanel>
-		<ListBox Margin="215,63,10,108"/>
-		<Border BorderBrush="Black" BorderThickness="2" Margin="215,318,10,10" Background="#FF23272A"/>
+		<ListBox x:Name="lstMessages" Margin="215,63,10,108" Grid.ColumnSpan="2"/>
+		<Border BorderBrush="Black" BorderThickness="2" Margin="215,318,10,10" Background="#FF23272A" Grid.ColumnSpan="2"/>
 	</Grid>
 </Window>
