@@ -22,7 +22,7 @@ namespace Discord_Data_Package_Parser
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();           
         }
     }
 }

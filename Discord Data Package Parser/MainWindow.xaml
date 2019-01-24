@@ -1,0 +1,43 @@
+﻿<Window x:Name="mainWindow" x:Class="Discord_Data_Package_Parser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Discord_Data_Package_Parser"
+        mc:Ignorable="d"
+		ResizeMode="CanMinimize"
+        Title="Discord Data Package Parser" Height="450" Width="800" MaxHeight="450" MaxWidth="800">
+	<Grid x:Name="grid" Background="#FF2C2F33">
+		<TabControl x:Name="tabMessages" HorizontalAlignment="Left" Height="371" Margin="10,40,0,10" Width="200">
+			<TabItem Header="DMs">
+				<Grid Background="#FF99AAB5"/>
+			</TabItem>
+			<TabItem Header="Servers">
+				<Grid Background="#FFE5E5E5"/>
+			</TabItem>
+		</TabControl>
+		<DockPanel Grid.ColumnSpan="2">
+			<Menu x:Name="menuContext" DockPanel.Dock="Top">
+				<MenuItem Header="_File">
+					<MenuItem Header="_Open">
+						<MenuItem Header="Open Folder"/>
+						<MenuItem Header="Open From ZIP"/>
+					</MenuItem>
+					<Separator />
+					<MenuItem Header="_Close"/>
+				</MenuItem>
+				<MenuItem Header="Options">
+					<MenuItem Header="Dark/Light Theme" IsEnabled="False"/>
+				</MenuItem>
+				<MenuItem Header="Help">
+					<MenuItem Header="About"/>
+				</MenuItem>
+			</Menu>
+			<StackPanel>
+
+			</StackPanel>
+		</DockPanel>
+		<ListBox Margin="215,63,10,108"/>
+		<Border BorderBrush="Black" BorderThickness="2" Margin="215,318,10,10" Background="#FF23272A"/>
+	</Grid>
+</Window>

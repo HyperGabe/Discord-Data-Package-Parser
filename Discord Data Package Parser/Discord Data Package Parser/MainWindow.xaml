@@ -1,9 +1,0 @@
-﻿<Window x:Name="___No_Name_" x:Class="Discord_Data_Package_Parser.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Discord_Data_Package_Parser"
-        mc:Ignorable="d"
-        Title="Discord Data Package Parser" Height="450" Width="800" Icon="ddpp_S8f_icon.ico">
-</Window>
