@@ -66,8 +66,6 @@ namespace Discord_Data_Package_Parser
                 }
                 else
                 {
-                    MessageBox.Show(dialog.FileName);
-
                     var directories = new List<string>(Directory.GetDirectories(dialog.FileName + "/messages"));
                     directoryCount = directories.Count();
 
@@ -79,7 +77,6 @@ namespace Discord_Data_Package_Parser
                     ListSubDir.ProgressChanged += ListSubDir_ProgressChanged;
                     ListSubDir.RunWorkerCompleted += ListSubDir_RunWorkerCompleted;
                     ListSubDir.RunWorkerAsync(dialog.FileName + "/messages");
-                    //ListSubDir(dialog.FileName + "/messages");
                 }
             }
             else
@@ -150,30 +147,17 @@ namespace Discord_Data_Package_Parser
         private void ListSubDir_DoWork(object sender, DoWorkEventArgs e)
         {
             string dir = (string)e.Argument;
-            MessageBox.Show(dir);
-
             var directories = new List<string>(Directory.GetDirectories(dir));
-
-            MessageBox.Show("Test");
 
             BwParse bwParse = new BwParse();
 
             for (int I = 0; I < directories.Count(); I++)
             {
-                switch (MessageType(directories[I]))
-                {
-                    case "DM":
-                        bwParse.Type = "DM";
-                        bwParse.Dir = directories[I].Remove(0, dir.Length + 1);
-                        (sender as BackgroundWorker).ReportProgress(I, bwParse);
-                        break;
-                    default:
-                        (sender as BackgroundWorker).ReportProgress(I);
-                        break;
-                }
-                
+                bwParse.Type = MessageType(directories[I]);
+                bwParse.Dir = directories[I].Remove(0, dir.Length + 1);
+                (sender as BackgroundWorker).ReportProgress(I, bwParse);
             }
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(500);
         }
 
         private void ListSubDir_ProgressChanged(object sender, ProgressChangedEventArgs e)
