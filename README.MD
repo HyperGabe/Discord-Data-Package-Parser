@@ -4,7 +4,7 @@
 An application that can parse through the discord data package onto a GUI to make it easier to read. [Learn more](https://support.discordapp.com/hc/en-us/articles/360004957991-Your-Discord-Data-Package)
 
 ## Overview
-This is an application thet I have made using the WPF application with the [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework-runtime)
+This is an application taet I have made using the WPF application with the [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework-runtime)
 
 ## Build With
 * [Visual Studio Community 2017](https://visualstudio.microsoft.com/) - The IDE used to make the application
