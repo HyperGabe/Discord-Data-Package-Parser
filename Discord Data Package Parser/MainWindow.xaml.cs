@@ -29,16 +29,24 @@ namespace Discord_Data_Package_Parser
         public string ChannelID     { get; set; }
         public string UserID        { get; set; }
     }
+    class BwParse
+    {
+        public string Type { get; set; }
+        public string Dir  { get; set; }
+    }
 
     public partial class MainWindow : Window
     {
+
+        ProgressBar progressBar;
+        int directoryCount;
+        
         public MainWindow()
         {
-            
             InitializeComponent();           
         }
 
-        private void MenuOpenFolder_Click(object sender, RoutedEventArgs e)
+        public void MenuOpenFolder_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CommonOpenFileDialog
             {
@@ -59,7 +67,19 @@ namespace Discord_Data_Package_Parser
                 else
                 {
                     MessageBox.Show(dialog.FileName);
-                    ListSubDir(dialog.FileName + "/messages");
+
+                    var directories = new List<string>(Directory.GetDirectories(dialog.FileName + "/messages"));
+                    directoryCount = directories.Count();
+
+                    progressBar = LoadProgressBar("Indexing Channels...", "0 / " + directoryCount.ToString(), directoryCount);
+
+                    BackgroundWorker ListSubDir = new BackgroundWorker();
+                    ListSubDir.WorkerReportsProgress = true;
+                    ListSubDir.DoWork += ListSubDir_DoWork;
+                    ListSubDir.ProgressChanged += ListSubDir_ProgressChanged;
+                    ListSubDir.RunWorkerCompleted += ListSubDir_RunWorkerCompleted;
+                    ListSubDir.RunWorkerAsync(dialog.FileName + "/messages");
+                    //ListSubDir(dialog.FileName + "/messages");
                 }
             }
             else
@@ -76,7 +96,7 @@ namespace Discord_Data_Package_Parser
 
         private void MenuClose_Click(object sender, RoutedEventArgs e)
         {
-
+            mainWindow.Close();
         }
 
         private void MenuTheme_Click(object sender, RoutedEventArgs e)
@@ -93,6 +113,8 @@ namespace Discord_Data_Package_Parser
         {
             lstDM.Items.Clear();
             lstServers.Items.Clear();
+            progressBar = null;
+            directoryCount = 0;
         }
 
         public string MessageType(string Dir)
@@ -125,33 +147,57 @@ namespace Discord_Data_Package_Parser
             return progressBar;
         }
 
-        private void ListSubDir(string dir)
+        private void ListSubDir_DoWork(object sender, DoWorkEventArgs e)
         {
+            string dir = (string)e.Argument;
             MessageBox.Show(dir);
 
             var directories = new List<string>(Directory.GetDirectories(dir));
-            int directoriescount = directories.Count();
 
-            var progressBar = LoadProgressBar("Indexing Channels...", "0 / " + directoriescount, directories.Count());
             MessageBox.Show("Test");
 
+            BwParse bwParse = new BwParse();
 
             for (int I = 0; I < directories.Count(); I++)
             {
                 switch (MessageType(directories[I]))
                 {
                     case "DM":
-                        lstDM.Items.Add(directories[I].Remove(0, dir.Length + 1));
+                        bwParse.Type = "DM";
+                        bwParse.Dir = directories[I].Remove(0, dir.Length + 1);
+                        (sender as BackgroundWorker).ReportProgress(I, bwParse);
+                        break;
+                    default:
+                        (sender as BackgroundWorker).ReportProgress(I);
                         break;
                 }
-                progressBar.lblProgress.Content = I + 1 + " / " + directoriescount.ToString();
-                progressBar.proProgress.Value = I + 1;
                 
-                System.Threading.Thread.Sleep(100);
             }
-            
+            System.Threading.Thread.Sleep(1000);
         }
 
-        
+        private void ListSubDir_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar.proProgress.Value = e.ProgressPercentage;
+            progressBar.lblProgress.Content = (e.ProgressPercentage + 1).ToString() + " / " + directoryCount.ToString();
+
+            if(e.UserState != null)
+            {
+                BwParse bwParse = (BwParse)e.UserState;
+                switch (bwParse.Type)
+                {
+                    case "DM":
+                        lstDM.Items.Add(bwParse.Dir);
+                        break;
+                }
+            }
+            
+
+        }
+
+        private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progressBar.Close();
+        }
     }
 }
