@@ -34,14 +34,13 @@
 					<MenuItem x:Name="MenuTheme" Header="Dark/Light Theme" Click="MenuTheme_Click"/>
 				</MenuItem>
 				<MenuItem Header="Help">
-					<MenuItem x:Name="MenuAbout" Header="About"/>
+					<MenuItem x:Name="MenuAbout" Header="About" Click="MenuAbout_Click"/>
 				</MenuItem>
 			</Menu>
-			<StackPanel>
-
-			</StackPanel>
+			<StackPanel/>
 		</DockPanel>
 		<ListBox x:Name="lstMessages" Margin="215,63,10,108" Grid.ColumnSpan="2"/>
 		<Border BorderBrush="Black" BorderThickness="2" Margin="215,318,10,10" Background="#FF23272A" Grid.ColumnSpan="2"/>
+
 	</Grid>
 </Window>
