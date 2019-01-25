@@ -23,16 +23,10 @@ namespace Discord_Data_Package_Parser
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    class ChannenJson
+    public class ChannenJson
     {
         public string Type          { get; set; }
-        public string ChannelID     { get; set; }
-        public string UserID        { get; set; }
-    }
-    class BwParse
-    {
-        public string Type { get; set; }
-        public string Dir  { get; set; }
+        public string ID            { get; set; }
     }
 
     public partial class MainWindow : Window
@@ -114,23 +108,14 @@ namespace Discord_Data_Package_Parser
             directoryCount = 0;
         }
 
-        public string MessageType(string Dir)
+        public ChannenJson MessageType(string Dir)
         {
             ChannenJson data = new ChannenJson();
             string json = File.ReadAllText(Dir + "/channel.json");
             var ChannelDetails = JsonConvert.DeserializeObject<dynamic>(json);
-            data.Type = ChannelDetails.type.ToString();
-            switch (data.Type)
-            {
-                case "0":
-                    return "GUILD_TEXT";
-                case "1":
-                    return "DM";
-                case "3":
-                    return "GROUP_DM";
-                default:
-                    return "ERROR";
-            }
+            data.ID = ChannelDetails.id;
+            data.Type = ChannelDetails.type;
+            return data;
         }
 
         private ProgressBar LoadProgressBar(string title, string content, int max)
@@ -149,13 +134,13 @@ namespace Discord_Data_Package_Parser
             string dir = (string)e.Argument;
             var directories = new List<string>(Directory.GetDirectories(dir));
 
-            BwParse bwParse = new BwParse();
-
             for (int I = 0; I < directories.Count(); I++)
             {
-                bwParse.Type = MessageType(directories[I]);
-                bwParse.Dir = directories[I].Remove(0, dir.Length + 1);
-                (sender as BackgroundWorker).ReportProgress(I, bwParse);
+                ChannenJson json = MessageType(directories[I]);
+
+                (sender as BackgroundWorker).ReportProgress(I, json);
+                //(sender as BackgroundWorker).ReportProgress(I, bwParse);
+
             }
             System.Threading.Thread.Sleep(500);
         }
@@ -165,13 +150,20 @@ namespace Discord_Data_Package_Parser
             progressBar.proProgress.Value = e.ProgressPercentage;
             progressBar.lblProgress.Content = (e.ProgressPercentage + 1).ToString() + " / " + directoryCount.ToString();
 
-            if(e.UserState != null)
+            if (e.UserState != null)
             {
-                BwParse bwParse = (BwParse)e.UserState;
-                switch (bwParse.Type)
+                ChannenJson json = (ChannenJson)e.UserState;
+                //lstMessages.Items.Add(json.ID + " / " + json.Type);
+                //BwParse bwParse = (BwParse)e.UserState;
+                //lstMessages.Items.Add(bwParse.Type + " / " + bwParse.Dir);
+
+                switch (json.Type)
                 {
-                    case "DM":
-                        lstDM.Items.Add(bwParse.Dir);
+                    case "1":
+                        lstDM.Items.Add(json.ID);
+                        break;
+                    case "0":
+                        lstServers.Items.Add(json.ID);
                         break;
                 }
             }
