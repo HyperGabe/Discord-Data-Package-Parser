@@ -23,19 +23,37 @@ namespace Discord_Data_Package_Parser
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public class ChannenJson
+    public class ChannelJson
     {
         public string Type          { get; set; }
         public string ID            { get; set; }
+        public string Name          { get; set; }
     }
+
+
 
     public partial class MainWindow : Window
     {
 
+        public string GetName(string ID)
+        {
+            if (index.ContainsKey(ID) & index[ID] != null)
+            {
+                return index[ID];
+            }
+            else
+            {
+                return "null";
+            }
+        }
+
         ProgressBar progressBar;
         int directoryCount;
         Dictionary<string, string> index;
-        
+        List<ChannelJson> DMList = new List<ChannelJson>();
+        List<ChannelJson> GDMList = new List<ChannelJson>();
+        List<ChannelJson> ServersList = new List<ChannelJson>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -106,33 +124,34 @@ namespace Discord_Data_Package_Parser
 
         private void Clear()
         {
+
             lstDM.Items.Clear();
             lstServers.Items.Clear();
+            lstGDM.Items.Clear();
             progressBar = null;
             directoryCount = 0;
         }
 
-        public ChannenJson MessageType(string Dir)
+        public ChannelJson MessageType(string Dir)
         {
-            ChannenJson data = new ChannenJson();
+            ChannelJson data = new ChannelJson();
             string json = File.ReadAllText(Dir + "/channel.json");
             var ChannelDetails = JsonConvert.DeserializeObject<dynamic>(json);
             data.ID = ChannelDetails.id;
             data.Type = ChannelDetails.type;
-            return data;
-        }
-
-        public string GetName(string ID, Dictionary<string, string> index)
-        {
-            if (index.ContainsKey(ID) & index[ID] != null)
-            {
-                return index[ID];
+            if(data.Type == "1") {
+                
+                data.Name = GetName(data.ID).Substring(20);
             }
             else
             {
-                return "null";
+                data.Name = GetName(data.ID);
             }
+            
+            return data;
         }
+
+        
 
         private ProgressBar LoadProgressBar(string title, string content, int max)
         {
@@ -154,7 +173,7 @@ namespace Discord_Data_Package_Parser
 
             for (int I = 0; I < directories.Count(); I++)
             {
-                ChannenJson json = MessageType(directories[I]);
+                ChannelJson json = MessageType(directories[I]);
 
                 (sender as BackgroundWorker).ReportProgress(I, json);
 
@@ -169,17 +188,17 @@ namespace Discord_Data_Package_Parser
 
             if (e.UserState != null)
             {
-                ChannenJson json = (ChannenJson)e.UserState;
+                ChannelJson json = (ChannelJson)e.UserState;
                 switch (json.Type)
                 {
                     case "3":
-                        lstGDM.Items.Add(GetName(json.ID, index));
+                        GDMList.Add(json);
                         break;
                     case "1":
-                        lstDM.Items.Add(GetName(json.ID, index).Substring(20));
+                        DMList.Add(json);
                         break;
                     case "0":
-                        lstServers.Items.Add(GetName(json.ID, index));
+                        ServersList.Add(json);
                         break;
                 }
             }
@@ -190,8 +209,11 @@ namespace Discord_Data_Package_Parser
         private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             progressBar.Close();
-            lstDM.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
-            lstServers.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
+            lstDM.ItemsSource = DMList;
+            lstGDM.ItemsSource = GDMList;
+            lstServers.ItemsSource = ServersList;
+            //lstDM.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
+            //lstServers.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
 
         }
     }

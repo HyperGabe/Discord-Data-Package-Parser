@@ -11,17 +11,38 @@
 		<TabControl x:Name="tabMessages" HorizontalAlignment="Left" Height="371" Margin="10,40,0,10" Width="200">
 			<TabItem Header="DMs">
 				<Grid Background="#FF99AAB5">
-					<ListBox x:Name="lstDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.ColumnSpan="2"/>
+					<ListView x:Name="lstDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" IsHitTestVisible="False">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="ID" Width="0" DisplayMemberBinding="{Binding ID}"/>
+								<GridViewColumn Header="Name" Width="194" DisplayMemberBinding="{Binding Name}"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
 				</Grid>
 			</TabItem>
 			<TabItem Header="Group DMs">
 				<Grid Background="#FF99AAB5">
-					<ListBox x:Name="lstGDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.ColumnSpan="2"/>
+					<ListView x:Name="lstGDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="ID" Width="0" DisplayMemberBinding="{Binding ID}"/>
+								<GridViewColumn Header="Name" Width="194" DisplayMemberBinding="{Binding Name}"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
 				</Grid>
 			</TabItem>
 			<TabItem Header="Servers">
 				<Grid Background="#FFE5E5E5">
-					<ListBox x:Name="lstServers" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+					<ListView x:Name="lstServers" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="ID" Width="0" DisplayMemberBinding="{Binding ID}"/>
+								<GridViewColumn Header="Name" Width="194" DisplayMemberBinding="{Binding Name}"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
 				</Grid>
 			</TabItem>
 		</TabControl>
@@ -42,7 +63,9 @@
 					<MenuItem x:Name="MenuAbout" Header="About" Click="MenuAbout_Click"/>
 				</MenuItem>
 			</Menu>
-			<StackPanel/>
+			<StackPanel>
+				<Label x:Name="lblIndex" Content="ID: "/>
+			</StackPanel>
 		</DockPanel>
 		<ListBox x:Name="lstMessages" Margin="215,63,10,108" Grid.ColumnSpan="2"/>
 		<Border BorderBrush="Black" BorderThickness="2" Margin="215,318,10,10" Background="#FF23272A" Grid.ColumnSpan="2"/>
