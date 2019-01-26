@@ -121,15 +121,15 @@ namespace Discord_Data_Package_Parser
         private ProgressBar LoadProgressBar(string title, string content, int max)
         {
             ProgressBar progressBar = new ProgressBar();
-<<<<<<< HEAD
+
             progressBar.Title = title;
             progressBar.Content = content; 
             progressBar.proProgress.Maximum = max;
-=======
+
             progressBar.Title = title; //"Indexing channels...";
             progressBar.lblProgress.Content = content; //"0 / " + directoriescount.ToString();
             progressBar.proProgress.Maximum = max; //directoriescount;
->>>>>>> parent of f92f971... Update MainWindow.xaml.cs
+
             progressBar.Show();
 
             return progressBar;
