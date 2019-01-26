@@ -120,11 +120,9 @@ namespace Discord_Data_Package_Parser
 
         private ProgressBar LoadProgressBar(string title, string content, int max)
         {
-            ProgressBar progressBar = new ProgressBar
-            {
-                Title = title,
-                Content = content,  
-            };
+            ProgressBar progressBar = new ProgressBar();
+            progressBar.Title = title;
+            progressBar.Content = content; 
             progressBar.proProgress.Maximum = max;
             progressBar.Show();
 
