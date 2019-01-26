@@ -34,10 +34,11 @@ namespace Discord_Data_Package_Parser
 
         ProgressBar progressBar;
         int directoryCount;
+        Dictionary<string, string> index;
         
         public MainWindow()
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
 
         public void MenuOpenFolder_Click(object sender, RoutedEventArgs e)
@@ -60,7 +61,10 @@ namespace Discord_Data_Package_Parser
                 }
                 else
                 {
-                    var directories = new List<string>(Directory.GetDirectories(dialog.FileName + "/messages"));
+                    string messages = dialog.FileName + "/messages";
+                    var directories = new List<string>(Directory.GetDirectories(messages));
+                    string json = File.ReadAllText(messages + "/index.json");
+                    index = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                     directoryCount = directories.Count();
 
                     progressBar = LoadProgressBar("Indexing Channels...", "0 / " + directoryCount.ToString(), directoryCount);
@@ -118,17 +122,25 @@ namespace Discord_Data_Package_Parser
             return data;
         }
 
+        public string GetName(string ID, Dictionary<string, string> index)
+        {
+            if (index.ContainsKey(ID) & index[ID] != null)
+            {
+                return index[ID];
+            }
+            else
+            {
+                return "null";
+            }
+        }
+
         private ProgressBar LoadProgressBar(string title, string content, int max)
         {
             ProgressBar progressBar = new ProgressBar();
 
             progressBar.Title = title;
-            progressBar.Content = content; 
+            progressBar.lblProgress.Content = content;
             progressBar.proProgress.Maximum = max;
-
-            progressBar.Title = title; //"Indexing channels...";
-            progressBar.lblProgress.Content = content; //"0 / " + directoriescount.ToString();
-            progressBar.proProgress.Maximum = max; //directoriescount;
 
             progressBar.Show();
 
@@ -145,7 +157,6 @@ namespace Discord_Data_Package_Parser
                 ChannenJson json = MessageType(directories[I]);
 
                 (sender as BackgroundWorker).ReportProgress(I, json);
-                //(sender as BackgroundWorker).ReportProgress(I, bwParse);
 
             }
             System.Threading.Thread.Sleep(500);
@@ -159,17 +170,16 @@ namespace Discord_Data_Package_Parser
             if (e.UserState != null)
             {
                 ChannenJson json = (ChannenJson)e.UserState;
-                //lstMessages.Items.Add(json.ID + " / " + json.Type);
-                //BwParse bwParse = (BwParse)e.UserState;
-                //lstMessages.Items.Add(bwParse.Type + " / " + bwParse.Dir);
-
                 switch (json.Type)
                 {
+                    case "3":
+                        lstGDM.Items.Add(GetName(json.ID, index));
+                        break;
                     case "1":
-                        lstDM.Items.Add(json.ID);
+                        lstDM.Items.Add(GetName(json.ID, index).Substring(20));
                         break;
                     case "0":
-                        lstServers.Items.Add(json.ID);
+                        lstServers.Items.Add(GetName(json.ID, index));
                         break;
                 }
             }
@@ -180,6 +190,9 @@ namespace Discord_Data_Package_Parser
         private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             progressBar.Close();
+            lstDM.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
+            lstServers.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
+
         }
     }
 }
