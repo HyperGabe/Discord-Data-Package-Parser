@@ -121,9 +121,15 @@ namespace Discord_Data_Package_Parser
         private ProgressBar LoadProgressBar(string title, string content, int max)
         {
             ProgressBar progressBar = new ProgressBar();
+<<<<<<< HEAD
             progressBar.Title = title;
             progressBar.Content = content; 
             progressBar.proProgress.Maximum = max;
+=======
+            progressBar.Title = title; //"Indexing channels...";
+            progressBar.lblProgress.Content = content; //"0 / " + directoriescount.ToString();
+            progressBar.proProgress.Maximum = max; //directoriescount;
+>>>>>>> parent of f92f971... Update MainWindow.xaml.cs
             progressBar.Show();
 
             return progressBar;
@@ -137,7 +143,10 @@ namespace Discord_Data_Package_Parser
             for (int I = 0; I < directories.Count(); I++)
             {
                 ChannenJson json = MessageType(directories[I]);
+
                 (sender as BackgroundWorker).ReportProgress(I, json);
+                //(sender as BackgroundWorker).ReportProgress(I, bwParse);
+
             }
             System.Threading.Thread.Sleep(500);
         }
@@ -150,6 +159,10 @@ namespace Discord_Data_Package_Parser
             if (e.UserState != null)
             {
                 ChannenJson json = (ChannenJson)e.UserState;
+                //lstMessages.Items.Add(json.ID + " / " + json.Type);
+                //BwParse bwParse = (BwParse)e.UserState;
+                //lstMessages.Items.Add(bwParse.Type + " / " + bwParse.Dir);
+
                 switch (json.Type)
                 {
                     case "1":
@@ -160,6 +173,8 @@ namespace Discord_Data_Package_Parser
                         break;
                 }
             }
+            
+
         }
 
         private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
