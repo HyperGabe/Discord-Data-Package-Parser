@@ -19,10 +19,6 @@ using Newtonsoft.Json;
 
 namespace Discord_Data_Package_Parser
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
     public class ChannelJson
     {
         public string Type          { get; set; }
@@ -67,15 +63,6 @@ namespace Discord_Data_Package_Parser
 
         private void LoadProgressBar(string title, int max)
         {
-            //ProgressBar progressBar = new ProgressBar();
-
-            //progressBar.Title = title;
-            //progressBar.lblProgress.Content = content;
-            //progressBar.proProgress.Maximum = max;
-
-            //progressBar.Show();
-
-            //return progressBar;
             lblTask.Content = title;
             lblProgress.Content = "0 / " + max.ToString();
             pbIndexing.Value = 0;
@@ -89,11 +76,8 @@ namespace Discord_Data_Package_Parser
             lstDM.Items.Clear();
             lstServers.Items.Clear();
             lstGDM.Items.Clear();
-            progressBar = null;
             directoryCount = 0;
         }
-
-        ProgressBar progressBar;
         int directoryCount;
         Dictionary<string, string> index;
         List<ChannelJson> DMList = new List<ChannelJson>();
@@ -180,7 +164,6 @@ namespace Discord_Data_Package_Parser
         //##########----BACKGROUND WORKER----##########
         private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //progressBar.Close();
             grdPopup.Visibility = Visibility.Hidden;
 
             lstDM.ItemsSource = DMList;
@@ -198,8 +181,6 @@ namespace Discord_Data_Package_Parser
         
         private void ListSubDir_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //progressBar.proProgress.Value = e.ProgressPercentage;
-            //progressBar.lblProgress.Content = (e.ProgressPercentage + 1).ToString() + " / " + directoryCount.ToString();
             pbIndexing.Value = e.ProgressPercentage;
             lblProgress.Content = (e.ProgressPercentage + 1).ToString() + " / " + directoryCount.ToString();
 
