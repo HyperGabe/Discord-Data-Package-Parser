@@ -11,7 +11,12 @@
 		<TabControl x:Name="tabMessages" HorizontalAlignment="Left" Height="371" Margin="10,40,0,10" Width="200">
 			<TabItem Header="DMs">
 				<Grid Background="#FF99AAB5">
-					<ListView x:Name="lstDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" IsHitTestVisible="False">
+					<ListView x:Name="lstDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MaxWidth="190" MinWidth="190">
+						<ListView.Resources>
+							<Style TargetType="GridViewColumnHeader">
+								<Setter Property="Visibility" Value="Collapsed" />
+							</Style>
+						</ListView.Resources>
 						<ListView.View>
 							<GridView>
 								<GridViewColumn Header="ID" Width="0" DisplayMemberBinding="{Binding ID}"/>
@@ -24,6 +29,11 @@
 			<TabItem Header="Group DMs">
 				<Grid Background="#FF99AAB5">
 					<ListView x:Name="lstGDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+						<ListView.Resources>
+							<Style TargetType="GridViewColumnHeader">
+								<Setter Property="Visibility" Value="Collapsed" />
+							</Style>
+						</ListView.Resources>
 						<ListView.View>
 							<GridView>
 								<GridViewColumn Header="ID" Width="0" DisplayMemberBinding="{Binding ID}"/>
@@ -36,6 +46,11 @@
 			<TabItem Header="Servers">
 				<Grid Background="#FFE5E5E5">
 					<ListView x:Name="lstServers" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+						<ListView.Resources>
+							<Style TargetType="GridViewColumnHeader">
+								<Setter Property="Visibility" Value="Collapsed" />
+							</Style>
+						</ListView.Resources>
 						<ListView.View>
 							<GridView>
 								<GridViewColumn Header="ID" Width="0" DisplayMemberBinding="{Binding ID}"/>
@@ -63,9 +78,7 @@
 					<MenuItem x:Name="MenuAbout" Header="About" Click="MenuAbout_Click"/>
 				</MenuItem>
 			</Menu>
-			<StackPanel>
-				<Label x:Name="lblIndex" Content="ID: "/>
-			</StackPanel>
+			<StackPanel/>
 		</DockPanel>
 		<ListBox x:Name="lstMessages" Margin="215,63,10,108" Grid.ColumnSpan="2"/>
 		<Border BorderBrush="Black" BorderThickness="2" Margin="215,318,10,10" Background="#FF23272A" Grid.ColumnSpan="2"/>

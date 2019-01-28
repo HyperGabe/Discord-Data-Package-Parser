@@ -47,6 +47,33 @@ namespace Discord_Data_Package_Parser
             }
         }
 
+        public ChannelJson MessageType(string Dir)
+        {
+            ChannelJson data = new ChannelJson();
+            string json = File.ReadAllText(Dir + "/channel.json");
+            var ChannelDetails = JsonConvert.DeserializeObject<dynamic>(json);
+            data.ID = ChannelDetails.id;
+            data.Type = ChannelDetails.type;
+            if (data.Type == "1")
+            {
+                data.Name = GetName(data.ID).Substring(20);
+            }
+            else
+            {
+                data.Name = GetName(data.ID);
+            }
+            return data;
+        }
+
+        private void Clear()
+        {
+            lstDM.Items.Clear();
+            lstServers.Items.Clear();
+            lstGDM.Items.Clear();
+            progressBar = null;
+            directoryCount = 0;
+        }
+
         ProgressBar progressBar;
         int directoryCount;
         Dictionary<string, string> index;
@@ -122,34 +149,7 @@ namespace Discord_Data_Package_Parser
             
         }
 
-        private void Clear()
-        {
-
-            lstDM.Items.Clear();
-            lstServers.Items.Clear();
-            lstGDM.Items.Clear();
-            progressBar = null;
-            directoryCount = 0;
-        }
-
-        public ChannelJson MessageType(string Dir)
-        {
-            ChannelJson data = new ChannelJson();
-            string json = File.ReadAllText(Dir + "/channel.json");
-            var ChannelDetails = JsonConvert.DeserializeObject<dynamic>(json);
-            data.ID = ChannelDetails.id;
-            data.Type = ChannelDetails.type;
-            if(data.Type == "1") {
-                
-                data.Name = GetName(data.ID).Substring(20);
-            }
-            else
-            {
-                data.Name = GetName(data.ID);
-            }
-            
-            return data;
-        }
+        
 
         
 
@@ -165,22 +165,25 @@ namespace Discord_Data_Package_Parser
 
             return progressBar;
         }
-
-        private void ListSubDir_DoWork(object sender, DoWorkEventArgs e)
+        
+        //##########----BACKGROUND WORKER----##########
+        private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            string dir = (string)e.Argument;
-            var directories = new List<string>(Directory.GetDirectories(dir));
+            progressBar.Close();
 
-            for (int I = 0; I < directories.Count(); I++)
-            {
-                ChannelJson json = MessageType(directories[I]);
+            lstDM.ItemsSource = DMList;
+            CollectionView DMview = (CollectionView)CollectionViewSource.GetDefaultView(lstDM.ItemsSource);
+            DMview.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
-                (sender as BackgroundWorker).ReportProgress(I, json);
+            lstGDM.ItemsSource = GDMList;
+            CollectionView GDMview = (CollectionView)CollectionViewSource.GetDefaultView(lstGDM.ItemsSource);
+            GDMview.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
-            }
-            System.Threading.Thread.Sleep(500);
+            lstServers.ItemsSource = ServersList;
+            CollectionView Serverview = (CollectionView)CollectionViewSource.GetDefaultView(lstServers.ItemsSource);
+            Serverview.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
-
+        
         private void ListSubDir_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar.proProgress.Value = e.ProgressPercentage;
@@ -202,19 +205,23 @@ namespace Discord_Data_Package_Parser
                         break;
                 }
             }
-            
-
         }
 
-        private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void ListSubDir_DoWork(object sender, DoWorkEventArgs e)
         {
-            progressBar.Close();
-            lstDM.ItemsSource = DMList;
-            lstGDM.ItemsSource = GDMList;
-            lstServers.ItemsSource = ServersList;
-            //lstDM.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
-            //lstServers.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("", System.ComponentModel.ListSortDirection.Ascending));
+            string dir = (string)e.Argument;
+            var directories = new List<string>(Directory.GetDirectories(dir));
 
+            for (int I = 0; I < directories.Count(); I++)
+            {
+                ChannelJson json = MessageType(directories[I]);
+
+                (sender as BackgroundWorker).ReportProgress(I, json);
+
+            }
+            System.Threading.Thread.Sleep(500);
         }
+        //##########################################################################################
+        
     }
 }
