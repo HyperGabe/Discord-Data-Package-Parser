@@ -26,8 +26,6 @@ namespace Discord_Data_Package_Parser
         public string Name          { get; set; }
     }
 
-
-
     public partial class MainWindow : Window
     {
 
@@ -78,6 +76,7 @@ namespace Discord_Data_Package_Parser
             lstGDM.Items.Clear();
             directoryCount = 0;
         }
+
         int directoryCount;
         Dictionary<string, string> index;
         List<ChannelJson> DMList = new List<ChannelJson>();
