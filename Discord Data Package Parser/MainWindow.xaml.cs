@@ -65,6 +65,25 @@ namespace Discord_Data_Package_Parser
             return data;
         }
 
+        private void LoadProgressBar(string title, int max)
+        {
+            //ProgressBar progressBar = new ProgressBar();
+
+            //progressBar.Title = title;
+            //progressBar.lblProgress.Content = content;
+            //progressBar.proProgress.Maximum = max;
+
+            //progressBar.Show();
+
+            //return progressBar;
+            lblTask.Content = title;
+            lblProgress.Content = "0 / " + max.ToString();
+            pbIndexing.Value = 0;
+            pbIndexing.Maximum = max;
+            grdPopup.Visibility = Visibility.Visible;
+
+        }
+
         private void Clear()
         {
             lstDM.Items.Clear();
@@ -112,7 +131,7 @@ namespace Discord_Data_Package_Parser
                     index = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                     directoryCount = directories.Count();
 
-                    progressBar = LoadProgressBar("Indexing Channels...", "0 / " + directoryCount.ToString(), directoryCount);
+                    LoadProgressBar("Indexing Channels...", directoryCount);
 
                     BackgroundWorker ListSubDir = new BackgroundWorker();
                     ListSubDir.WorkerReportsProgress = true;
@@ -149,27 +168,20 @@ namespace Discord_Data_Package_Parser
             
         }
 
-        
-
-        
-
-        private ProgressBar LoadProgressBar(string title, string content, int max)
+        //##########----Message Loader----##########
+        private void LoadMessages(ListView lv, string ID)
         {
-            ProgressBar progressBar = new ProgressBar();
 
-            progressBar.Title = title;
-            progressBar.lblProgress.Content = content;
-            progressBar.proProgress.Maximum = max;
-
-            progressBar.Show();
-
-            return progressBar;
         }
-        
+        //##########################################
+
+
+
         //##########----BACKGROUND WORKER----##########
         private void ListSubDir_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            progressBar.Close();
+            //progressBar.Close();
+            grdPopup.Visibility = Visibility.Hidden;
 
             lstDM.ItemsSource = DMList;
             CollectionView DMview = (CollectionView)CollectionViewSource.GetDefaultView(lstDM.ItemsSource);
@@ -186,8 +198,10 @@ namespace Discord_Data_Package_Parser
         
         private void ListSubDir_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar.proProgress.Value = e.ProgressPercentage;
-            progressBar.lblProgress.Content = (e.ProgressPercentage + 1).ToString() + " / " + directoryCount.ToString();
+            //progressBar.proProgress.Value = e.ProgressPercentage;
+            //progressBar.lblProgress.Content = (e.ProgressPercentage + 1).ToString() + " / " + directoryCount.ToString();
+            pbIndexing.Value = e.ProgressPercentage;
+            lblProgress.Content = (e.ProgressPercentage + 1).ToString() + " / " + directoryCount.ToString();
 
             if (e.UserState != null)
             {
@@ -221,7 +235,7 @@ namespace Discord_Data_Package_Parser
             }
             System.Threading.Thread.Sleep(500);
         }
-        //##########################################################################################
-        
+        //#############################################
+
     }
 }

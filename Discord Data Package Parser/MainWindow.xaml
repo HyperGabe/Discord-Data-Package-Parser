@@ -8,6 +8,7 @@
 		ResizeMode="CanMinimize"
         Title="Discord Data Package Parser" Height="450" Width="800" MaxHeight="450" MaxWidth="800" Icon="ddpp_S8f_icon.ico">
 	<Grid x:Name="grid" Background="#FF2C2F33">
+
 		<TabControl x:Name="tabMessages" HorizontalAlignment="Left" Height="371" Margin="10,40,0,10" Width="200">
 			<TabItem Header="DMs">
 				<Grid Background="#FF99AAB5">
@@ -80,8 +81,19 @@
 			</Menu>
 			<StackPanel/>
 		</DockPanel>
-		<ListBox x:Name="lstMessages" Margin="215,63,10,108" Grid.ColumnSpan="2"/>
-		<Border BorderBrush="Black" BorderThickness="2" Margin="215,318,10,10" Background="#FF23272A" Grid.ColumnSpan="2"/>
+		<ListBox x:Name="lstMessages" Margin="215,63,10,115"/>
+		<GroupBox Header="Data" Margin="215,306,10,10" Foreground="White" BorderBrush="Black">
+			<Grid >
+				<Label x:Name="lblID" Content="ID:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Verdana" FontSize="16" RenderTransformOrigin="0.024,0.264"/>
+				<Label x:Name="lblName" Content="Name:" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Verdana" FontSize="16" RenderTransformOrigin="0.024,0.264"/>
+				<Label x:Name="lblTime" Content="Time:" HorizontalAlignment="Left" Margin="0,40,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Verdana" FontSize="16" RenderTransformOrigin="0.024,0.264"/>
+			</Grid>
+		</GroupBox>
+		<Grid x:Name="grdPopup" Background="#FF2C2F33" Width="350" Height="100" Visibility="Hidden">
+			<ProgressBar x:Name="pbIndexing" Margin="10,60,10,10"/>
+			<Label x:Name="lblProgress" Content="0 / 0" Margin="10,32,10,36" Foreground="White" FontFamily="Verdana" FontSize="14"/>
+			<Label x:Name="lblTask" Content="Current Task..." Margin="10,5,10,63" Foreground="White" FontFamily="Verdana" FontSize="16"/>
+		</Grid>
 
 	</Grid>
 </Window>
