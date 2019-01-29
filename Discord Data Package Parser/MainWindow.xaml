@@ -10,7 +10,7 @@
 	<Grid x:Name="grid" Background="#FF2C2F33">
 
 		<TabControl x:Name="tabMessages" HorizontalAlignment="Left" Height="371" Margin="10,40,0,10" Width="200">
-			<TabItem Header="DMs">
+			<TabItem x:Name="tabDM" Header="DMs">
 				<Grid Background="#FF99AAB5">
 					<ListView x:Name="lstDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SelectionMode="Single">
 						<ListView.Resources>
@@ -24,10 +24,15 @@
 								<GridViewColumn Header="Name" Width="194" DisplayMemberBinding="{Binding Name}"/>
 							</GridView>
 						</ListView.View>
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+							</Style>
+						</ListView.ItemContainerStyle>
 					</ListView>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Group DMs">
+			<TabItem x:Name="tabGDM" Header="Group DMs">
 				<Grid Background="#FF99AAB5">
 					<ListView x:Name="lstGDM" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SelectionMode="Single">
 						<ListView.Resources>
@@ -41,10 +46,15 @@
 								<GridViewColumn Header="Name" Width="194" DisplayMemberBinding="{Binding Name}"/>
 							</GridView>
 						</ListView.View>
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+							</Style>
+						</ListView.ItemContainerStyle>
 					</ListView>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Servers">
+			<TabItem x:Name="tabServers" Header="Servers">
 				<Grid Background="#FFE5E5E5">
 					<ListView x:Name="lstServers" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SelectionMode="Single">
 						<ListView.Resources>
@@ -58,6 +68,11 @@
 								<GridViewColumn Header="Name" Width="194" DisplayMemberBinding="{Binding Name}"/>
 							</GridView>
 						</ListView.View>
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+							</Style>
+						</ListView.ItemContainerStyle>
 					</ListView>
 				</Grid>
 			</TabItem>
@@ -81,7 +96,7 @@
 			</Menu>
 			<StackPanel/>
 		</DockPanel>
-		<ListBox x:Name="lstMessages" Margin="215,63,10,115"/>
+
 		<GroupBox Header="Data" Margin="215,306,10,10" Foreground="White" BorderBrush="Black">
 			<Grid >
 				<Label x:Name="lblID" Content="ID:" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Verdana" FontSize="16" RenderTransformOrigin="0.024,0.264"/>
@@ -94,6 +109,13 @@
 			<Label x:Name="lblProgress" Content="0 / 0" Margin="10,32,10,36" Foreground="White" FontFamily="Verdana" FontSize="14"/>
 			<Label x:Name="lblTask" Content="Current Task..." Margin="10,5,10,63" Foreground="White" FontFamily="Verdana" FontSize="16"/>
 		</Grid>
+		<ListView x:Name="lstMessages" Margin="215,62,10,120">
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Content" Width="569" DisplayMemberBinding="{Binding Contents}"/>
+				</GridView>
+			</ListView.View>
+		</ListView>
 
 	</Grid>
 </Window>

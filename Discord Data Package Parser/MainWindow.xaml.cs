@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
+using CsvHelper;
 
 namespace Discord_Data_Package_Parser
 {
@@ -24,6 +25,12 @@ namespace Discord_Data_Package_Parser
         public string Type          { get; set; }
         public string ID            { get; set; }
         public string Name          { get; set; }
+    }
+    public class MessageCSV
+    {
+        public string ID            { get; set; }
+        public string Timestamp     { get; set; }
+        public string Contents      { get; set; }
     }
 
     public partial class MainWindow : Window
@@ -77,6 +84,7 @@ namespace Discord_Data_Package_Parser
             directoryCount = 0;
         }
 
+        string dataDIR;
         int directoryCount;
         Dictionary<string, string> index;
         List<ChannelJson> DMList = new List<ChannelJson>();
@@ -108,7 +116,8 @@ namespace Discord_Data_Package_Parser
                 }
                 else
                 {
-                    string messages = dialog.FileName + "/messages";
+                    dataDIR = dialog.FileName;
+                    string messages = dataDIR + "/messages";
                     var directories = new List<string>(Directory.GetDirectories(messages));
                     string json = File.ReadAllText(messages + "/index.json");
                     index = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
@@ -151,10 +160,33 @@ namespace Discord_Data_Package_Parser
             
         }
 
-        //##########----Message Loader----##########
-        private void LoadMessages(ListView lv, string ID)
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (sender is ListViewItem item && item.IsSelected)
+            {
+                ChannelJson json = item.DataContext as ChannelJson;
 
+                LoadMessages(json.ID);             
+            }
+        }
+
+        //##########----Message Loader----##########
+        private void LoadMessages(string ID)
+        {
+            string messageDIR = dataDIR + "/messages/" + ID;
+            if(File.Exists(messageDIR + "/messages.csv"))
+            {
+                using (var reader = new StreamReader(messageDIR + "/messages.csv"))
+                using (var csv = new CsvReader(reader))
+                {
+                    List<MessageCSV> records = csv.GetRecords<MessageCSV>().ToList();
+                    lstMessages.ItemsSource = records;
+                }
+            }
+            else
+            {
+                MessageBox.Show("No message CSV found", "File not found", MessageBoxButton.OK, MessageBoxImage.Error);
+            }           
         }
         //##########################################
 
@@ -216,6 +248,8 @@ namespace Discord_Data_Package_Parser
             System.Threading.Thread.Sleep(500);
         }
         //#############################################
+
+
 
     }
 }
