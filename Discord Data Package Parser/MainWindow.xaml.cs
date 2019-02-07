@@ -2,17 +2,11 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
@@ -47,7 +41,6 @@ namespace Discord_Data_Package_Parser
                 return "null";
             }
         }
-
         public ChannelJson MessageType(string Dir)
         {
             ChannelJson data = new ChannelJson();
@@ -73,20 +66,20 @@ namespace Discord_Data_Package_Parser
             pbIndexing.Value = 0;
             pbIndexing.Maximum = max;
             grdPopup.Visibility = Visibility.Visible;
-
         }
 
         private void Clear()
         {
-            lstDM.Items.Clear();
-            lstServers.Items.Clear();
-            lstGDM.Items.Clear();
+            //lstDM.Items.Clear();
+            //lstServers.Items.Clear();
+            //lstGDM.Items.Clear();
             directoryCount = 0;
         }
 
         string dataDIR;
         int directoryCount;
         Dictionary<string, string> index;
+
         List<ChannelJson> DMList = new List<ChannelJson>();
         List<ChannelJson> GDMList = new List<ChannelJson>();
         List<ChannelJson> ServersList = new List<ChannelJson>();
@@ -103,7 +96,6 @@ namespace Discord_Data_Package_Parser
                 EnsurePathExists = true,
                 EnsureFileExists = false,
                 AllowNonFileSystemItems = false,
-                DefaultFileName = "Select the Package Folder",
                 Title = "Select The Folder To Parse"
             };
             dialog.IsFolderPicker = true;
@@ -162,12 +154,22 @@ namespace Discord_Data_Package_Parser
 
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            //lblID.Content = "ID: ";
+            //lblTime.Content = "Timestamp: ";
             if (sender is ListViewItem item && item.IsSelected)
             {
                 ChannelJson json = item.DataContext as ChannelJson;
-
                 LoadMessages(json.ID);             
             }
+        }
+
+        private void lstMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //if(lstMessages.SelectedItem is MessageCSV)
+            //{
+            //    lblID.Content = "ID: " + ((MessageCSV)lstMessages.SelectedItem).ID;
+            //    lblTime.Content = "Timestamp: " + ((MessageCSV)lstMessages.SelectedItem).Timestamp;
+            //}
         }
 
         //##########----Message Loader----##########
@@ -179,8 +181,8 @@ namespace Discord_Data_Package_Parser
                 using (var reader = new StreamReader(messageDIR + "/messages.csv"))
                 using (var csv = new CsvReader(reader))
                 {
-                    List<MessageCSV> records = csv.GetRecords<MessageCSV>().ToList();
-                    lstMessages.ItemsSource = records;
+                    List<MessageCSV> messageCSV = csv.GetRecords<MessageCSV>().ToList();
+                    lvmessages.ItemsSource = messageCSV;
                 }
             }
             else
@@ -197,16 +199,16 @@ namespace Discord_Data_Package_Parser
         {
             grdPopup.Visibility = Visibility.Hidden;
 
-            lstDM.ItemsSource = DMList;
-            CollectionView DMview = (CollectionView)CollectionViewSource.GetDefaultView(lstDM.ItemsSource);
+            lvDMs.ItemsSource = DMList;
+            CollectionView DMview = (CollectionView)CollectionViewSource.GetDefaultView(lvDMs.ItemsSource);
             DMview.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
-            lstGDM.ItemsSource = GDMList;
-            CollectionView GDMview = (CollectionView)CollectionViewSource.GetDefaultView(lstGDM.ItemsSource);
+            lvGDMs.ItemsSource = GDMList;
+            CollectionView GDMview = (CollectionView)CollectionViewSource.GetDefaultView(lvGDMs.ItemsSource);
             GDMview.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
-            lstServers.ItemsSource = ServersList;
-            CollectionView Serverview = (CollectionView)CollectionViewSource.GetDefaultView(lstServers.ItemsSource);
+            lvChannels.ItemsSource = ServersList;
+            CollectionView Serverview = (CollectionView)CollectionViewSource.GetDefaultView(lvChannels.ItemsSource);
             Serverview.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
         
@@ -243,13 +245,32 @@ namespace Discord_Data_Package_Parser
                 ChannelJson json = MessageType(directories[I]);
 
                 (sender as BackgroundWorker).ReportProgress(I, json);
-
             }
             System.Threading.Thread.Sleep(500);
         }
         //#############################################
 
+        private void Channels_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListViewItem item && item.IsSelected)
+            {
+                ChannelJson json = item.DataContext as ChannelJson;
+                tbSelectedUser.Text = "Selected Channel: " + json.Name;
+                LoadMessages(json.ID);
+                ScrollToTop(lvmessages);
+                
+            }
+        }
 
+        private void ScrollToTop(ListView listView)
+        {
+            Decorator decorator = VisualTreeHelper.GetChild(listView, 0) as Decorator;
+            ScrollViewer scrollViewer = decorator.Child as ScrollViewer;
+
+            scrollViewer.ScrollToTop();
+        }
 
     }
+
 }
+
