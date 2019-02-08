@@ -4,10 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Discord_Data_Package_Parser"
+		xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
         mc:Ignorable="d"
 		ResizeMode="CanMinimize"
         Title="Discord Data Package Parser" Height="450" Width="800" MaxHeight="450" MaxWidth="800" Icon="ddpp_S8f_icon.ico">
-
+	<Window.Resources>
+		
+	</Window.Resources>
 
 	<Grid Background="#FF2C2F33">
 		<Grid>
@@ -25,7 +28,7 @@
 				<MenuItem Header="File" Foreground="White" Height="25" Width="34">
 					<MenuItem Header="Open" Background="#FF23272A" BorderBrush="#FF181A1B">
 						<MenuItem Header="Open from Folder" Background="#FF23272A" Click="MenuOpenFolder_Click"/>
-						<MenuItem Header="Open from ZIP" Background="#FF23272A"/>
+						<!--<MenuItem Header="Open from ZIP" Background="#FF23272A"/>-->
 					</MenuItem>
 				</MenuItem>
 
@@ -224,7 +227,7 @@
 					</Grid.Resources>
 					<Border Grid.Row="1">
 						<Grid Background="#FF23272A">
-							<ListView x:Name="lvmessages" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Transparent" BorderThickness="0" Foreground="White" ScrollViewer.CanContentScroll="False">
+							<ListView x:Name="lvmessages" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Transparent" BorderThickness="0" Foreground="White" ScrollViewer.CanContentScroll="False" SelectionChanged="lvMessages_SelectionChanged">
 								<ListView.Resources>
 									<ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
 										<Border SnapsToDevicePixels="true" 
@@ -245,7 +248,7 @@
 										<Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Text }" />
 									</Style>
 									<Style TargetType="ListViewItem">
-										<!--<EventSetter Event="MouseDoubleClick" Handler="Channels_MouseDoubleClick"/>-->
+										<EventSetter Event="MouseDoubleClick" Handler="lvMessage_MouseDoubleClick"/>
 										<Setter Property="Template" Value="{StaticResource SelectedTemplate}"/>
 										<Style.Triggers>
 											<MultiTrigger>
@@ -272,13 +275,33 @@
 					</Border>
 					<Border Grid.Row="2">
 						<Grid Background="#FF23272A">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="247*"/>
+								<ColumnDefinition Width="32*"/>
+							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
-								<RowDefinition Height="1*"/>
-								<RowDefinition Height="1*"/>
-								<RowDefinition Height="1*"/>
-								<RowDefinition Height="1*"/>
+								<RowDefinition/>
+								<RowDefinition/>
+								<RowDefinition/>
 							</Grid.RowDefinitions>
-
+							<Label Grid.Row="0" Grid.Column="0" Foreground="White" FontFamily="Verdana" FontSize="16" VerticalAlignment="Center">
+								<TextBlock x:Name="tbMessageID" Text="ID: " TextTrimming="CharacterEllipsis"/>
+							</Label>
+							<Label Grid.Row="1" Grid.Column="0" Foreground="White" FontFamily="Verdana" FontSize="16" VerticalAlignment="Center">
+								<TextBlock x:Name="tbMessageTimestamp" Text="Timestamp: " TextTrimming="CharacterEllipsis"/>
+							</Label>
+							<Label Grid.Row="2" Grid.Column="0" Foreground="White" FontFamily="Verdana" FontSize="16" VerticalAlignment="Center">
+								<TextBlock x:Name="tbMessageAttachment" Text="Attachment: " TextTrimming="CharacterEllipsis"/>
+							</Label>
+							<Border Grid.Row="0" Grid.Column="1">
+								<Button x:Name="btnCopyID" Content="Copy" Click="btnCopyID_Click"/>
+							</Border>
+							<Border Grid.Row="1" Grid.Column="1">
+								<Button x:Name="btnCopyTimestamp" Content="Copy" Click="btnCopyTimestamp_Click"/>
+							</Border>
+							<Border Grid.Row="2" Grid.Column="1">
+								<Button x:Name="btnCopyAttachment" Content="Copy" Click="btnCopyAttachment_Click"/>
+							</Border>
 						</Grid>
 					</Border>
 				</Grid>
@@ -291,7 +314,7 @@
 						</Style>
 					</Grid.Resources>
 					<Border>
-						<TextBlock x:Name="tbSelectedUser" Grid.Row="2" TextWrapping="Wrap" Text="Selected Channel: " VerticalAlignment="Center" Foreground="White"/>
+						<TextBlock x:Name="tbSelectedUser" Grid.Row="2" TextWrapping="Wrap" Text="Selected Channel ID: " VerticalAlignment="Center" Foreground="White" />
 					</Border>
 				</Grid>
 			</Border>
