@@ -25,6 +25,7 @@ namespace Discord_Data_Package_Parser
         public string ID            { get; set; }
         public string Timestamp     { get; set; }
         public string Contents      { get; set; }
+        public string Attachments   { get; set; }
     }
 
     public partial class MainWindow : Window
@@ -163,13 +164,16 @@ namespace Discord_Data_Package_Parser
             }
         }
 
-        private void lstMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void lvMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if(lstMessages.SelectedItem is MessageCSV)
-            //{
-            //    lblID.Content = "ID: " + ((MessageCSV)lstMessages.SelectedItem).ID;
-            //    lblTime.Content = "Timestamp: " + ((MessageCSV)lstMessages.SelectedItem).Timestamp;
-            //}
+            if(lvmessages.SelectedItem is MessageCSV)
+            {
+                MessageCSV message = (MessageCSV)lvmessages.SelectedItem;
+                tbMessageID.Text = "ID: " + message.ID;
+                tbMessageTimestamp.Text = "Timestamp: " + message.Timestamp;
+                tbMessageAttachment.Text = "Attachment: " + message.Attachments;
+
+            }
         }
 
         //##########----Message Loader----##########
@@ -182,8 +186,23 @@ namespace Discord_Data_Package_Parser
                 using (var csv = new CsvReader(reader))
                 {
                     List<MessageCSV> messageCSV = csv.GetRecords<MessageCSV>().ToList();
+
+                    foreach (var message in messageCSV)
+                    {
+                        if(message.Attachments != "")
+                        {
+                            message.Contents = message.Contents + " - [" + message.Attachments + "]";
+                        }
+                        else
+                        {
+                            message.Contents = message.Contents;
+                        }
+                        
+                    }
+
                     lvmessages.ItemsSource = messageCSV;
                 }
+                
             }
             else
             {
@@ -255,10 +274,10 @@ namespace Discord_Data_Package_Parser
             if (sender is ListViewItem item && item.IsSelected)
             {
                 ChannelJson json = item.DataContext as ChannelJson;
-                tbSelectedUser.Text = "Selected Channel: " + json.Name;
+                tbSelectedUser.Text = "Selected Channel ID: " + json.ID + " - " + json.Name;
                 LoadMessages(json.ID);
                 ScrollToTop(lvmessages);
-                
+                ClearMessageLabels();
             }
         }
 
@@ -270,6 +289,47 @@ namespace Discord_Data_Package_Parser
             scrollViewer.ScrollToTop();
         }
 
+        private void ClearMessageLabels()
+        {
+            tbMessageID.Text = "ID: ";
+            tbMessageTimestamp.Text = "Timestamp: ";
+            tbMessageAttachment.Text = "Attachment: ";
+        }
+
+        //##########----Copy Buttons----##########
+
+        private void btnCopyID_Click(object sender, RoutedEventArgs e)
+        {
+            string text = tbMessageID.Text.ToString();
+            Clipboard.SetText(text.Substring(4, text.Length - 4));
+        }
+
+        private void btnCopyTimestamp_Click(object sender, RoutedEventArgs e)
+        {
+            string text = tbMessageTimestamp.Text.ToString();
+            Clipboard.SetText(text.Substring(11, text.Length - 11));
+        }
+
+        private void btnCopyAttachment_Click(object sender, RoutedEventArgs e)
+        {
+            string text = tbMessageAttachment.Text.ToString();
+            Clipboard.SetText(text.Substring(12, text.Length - 12));
+        }
+
+        private void lvMessage_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lvmessages.SelectedItem is MessageCSV)
+            {
+                if (sender is ListViewItem item && item.IsSelected)
+                {
+                    MessageCSV messageCSV = item.DataContext as MessageCSV;
+                    Clipboard.SetText(messageCSV.Contents);
+                    MessageBox.Show("Message copied to clipboard", "Message copied", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+        }
+
+        //#############################################
     }
 
 }
