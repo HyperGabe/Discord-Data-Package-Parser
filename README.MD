@@ -17,6 +17,15 @@ You can open messages from a channel by double clicking the channel and you can 
 
 * The channels are not linked to the servers they are from, this means it would not be possible to group the server channels up.
 
+# Planned features
+* Display attachments if an image - []
+* Display emotes - []
+* Swap between light/dark theme - []
+* Filter channels and messages - []
+* Search channels and messages - []
+* Show extra data (Members in a group, activity) - []
+* Option to output all messages into a text file - []
+
 ## Build With
 * [Visual Studio Community 2017](https://visualstudio.microsoft.com/) - The IDE used to make the application
 * [Json.NET](https://www.newtonsoft.com/json) - Library used to handle JSON files
