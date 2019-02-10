@@ -13,8 +13,9 @@ Start by opening the data package folder using the menu strip on the top, after 
 You can open messages from a channel by double clicking the channel and you can copy messages by double clicking the message
 
 # Stuff to know
-* You will notice some channels called "null", these are channels that you have left/deleted/been kicked from. These names are not saved so it can not be displayed.
+* You will notice some channels called "null", these are channels that you have left/deleted/been kicked from. These names are not saved so it can not be displayed.  
 
+* The channels are not linked to the servers they are from, this means it would not be possible to group the server channels up.
 
 ## Build With
 * [Visual Studio Community 2017](https://visualstudio.microsoft.com/) - The IDE used to make the application
