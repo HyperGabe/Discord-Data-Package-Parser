@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Discord Data Package Parser")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("HyperGabe")]
 [assembly: AssemblyProduct("Discord Data Package Parser")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
@@ -53,3 +53,4 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyKeyFile("E:\\Development\\Key\\MSK.snk")]
