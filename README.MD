@@ -6,6 +6,16 @@ An application that can parse through the discord data package onto a GUI to mak
 ## Overview
 This is an application that I have made using the WPF application with the [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework-runtime)
 
+## How to use
+Using this application should be simple.  
+Start by opening the data package folder using the menu strip on the top, after that everything else is done.  
+
+You can open messages from a channel by double clicking the channel and you can copy messages by double clicking the message
+
+# Stuff to know
+* You will notice some channels called "null", these are channels that you have left/deleted/been kicked from. These names are not saved so it can not be displayed.
+
+
 ## Build With
 * [Visual Studio Community 2017](https://visualstudio.microsoft.com/) - The IDE used to make the application
 * [Json.NET](https://www.newtonsoft.com/json) - Library used to handle JSON files
