@@ -4,7 +4,8 @@
 An application that can parse through the discord data package onto a GUI to make it easier to read. [Learn more](https://support.discordapp.com/hc/en-us/articles/360004957991-Your-Discord-Data-Package)
 
 ## Overview
-This is an application that I have made using the WPF application with the [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework-runtime)
+This is an application that I have made using the WPF application with the [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework-runtime)  
+(This does mean it is currently only compatible for windows)
 
 ## How to use
 Using this application should be simple.  
@@ -25,6 +26,7 @@ You can open messages from a channel by double clicking the channel and you can 
 * Search channels and messages - []
 * Show extra data (Members in a group, activity) - []
 * Option to output all messages into a text file - []
+* Cross platform (Linux/Mac) - []
 
 ## Build With
 * [Visual Studio Community 2017](https://visualstudio.microsoft.com/) - The IDE used to make the application
