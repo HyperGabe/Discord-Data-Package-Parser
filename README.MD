@@ -19,14 +19,14 @@ You can open messages from a channel by double clicking the channel and you can 
 * The channels are not linked to the servers they are from, this means it would not be possible to group the server channels up.
 
 # Planned features
-* Display attachments if an image - []
-* Display emotes - []
-* Swap between light/dark theme - []
-* Filter channels and messages - []
-* Search channels and messages - []
-* Show extra data (Members in a group, activity) - []
-* Option to output all messages into a text file - []
-* Cross platform (Linux/Mac) - []
+* Display attachments if an image - [Not completed]
+* Display emotes - [Not completed]
+* Swap between light/dark theme - [Not completed]
+* Filter channels and messages - [Not completed]
+* Search channels and messages - [Not completed]
+* Show extra data (Members in a group, activity) - [Not completed]
+* Option to output all messages into a text file - [Not completed]
+* Cross platform (Linux/Mac) - [Not completed]
 
 ## Build With
 * [Visual Studio Community 2017](https://visualstudio.microsoft.com/) - The IDE used to make the application
