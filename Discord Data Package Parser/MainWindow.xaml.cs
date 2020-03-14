@@ -186,6 +186,7 @@ namespace Discord_Data_Package_Parser
                 using (var reader = new StreamReader(messageDIR + "/messages.csv"))
                 using (var csv = new CsvReader(reader))
                 {
+                    csv.Configuration.Delimiter = ",";
                     List<MessageCSV> messageCSV = csv.GetRecords<MessageCSV>().ToList();
 
                     foreach (var message in messageCSV)
