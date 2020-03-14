@@ -11,21 +11,22 @@ using System.ComponentModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
 using CsvHelper;
+using Microsoft.Win32;
 
 namespace Discord_Data_Package_Parser
 {
     public class ChannelJson
     {
-        public string Type          { get; set; }
-        public string ID            { get; set; }
-        public string Name          { get; set; }
+        public string Type { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
     }
     public class MessageCSV
     {
-        public string ID            { get; set; }
-        public string Timestamp     { get; set; }
-        public string Contents      { get; set; }
-        public string Attachments   { get; set; }
+        public string ID { get; set; }
+        public string Timestamp { get; set; }
+        public string Contents { get; set; }
+        public string Attachments { get; set; }
     }
 
     public partial class MainWindow : Window
@@ -103,7 +104,7 @@ namespace Discord_Data_Package_Parser
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 Clear();
-                if(!Directory.Exists(dialog.FileName + "/messages"))
+                if (!Directory.Exists(dialog.FileName + "/messages"))
                 {
                     MessageBox.Show("messages folder could not be found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -150,7 +151,7 @@ namespace Discord_Data_Package_Parser
 
         private void MenuAbout_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -160,13 +161,13 @@ namespace Discord_Data_Package_Parser
             if (sender is ListViewItem item && item.IsSelected)
             {
                 ChannelJson json = item.DataContext as ChannelJson;
-                LoadMessages(json.ID);             
+                LoadMessages(json.ID);
             }
         }
 
         private void lvMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(lvmessages.SelectedItem is MessageCSV)
+            if (lvmessages.SelectedItem is MessageCSV)
             {
                 MessageCSV message = (MessageCSV)lvmessages.SelectedItem;
                 tbMessageID.Text = "ID: " + message.ID;
@@ -180,7 +181,7 @@ namespace Discord_Data_Package_Parser
         private void LoadMessages(string ID)
         {
             string messageDIR = dataDIR + "/messages/" + ID;
-            if(File.Exists(messageDIR + "/messages.csv"))
+            if (File.Exists(messageDIR + "/messages.csv"))
             {
                 using (var reader = new StreamReader(messageDIR + "/messages.csv"))
                 using (var csv = new CsvReader(reader))
@@ -189,7 +190,7 @@ namespace Discord_Data_Package_Parser
 
                     foreach (var message in messageCSV)
                     {
-                        if(message.Attachments != "")
+                        if (message.Attachments != "")
                         {
                             message.Contents = message.Contents + " - [" + message.Attachments + "]";
                         }
@@ -197,17 +198,17 @@ namespace Discord_Data_Package_Parser
                         {
                             message.Contents = message.Contents;
                         }
-                        
+
                     }
 
                     lvmessages.ItemsSource = messageCSV;
                 }
-                
+
             }
             else
             {
                 MessageBox.Show("No message CSV found", "File not found", MessageBoxButton.OK, MessageBoxImage.Error);
-            }           
+            }
         }
         //##########################################
 
@@ -230,7 +231,7 @@ namespace Discord_Data_Package_Parser
             CollectionView Serverview = (CollectionView)CollectionViewSource.GetDefaultView(lvChannels.ItemsSource);
             Serverview.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
         }
-        
+
         private void ListSubDir_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             pbIndexing.Value = e.ProgressPercentage;
@@ -328,9 +329,27 @@ namespace Discord_Data_Package_Parser
                 }
             }
         }
-
         //#############################################
-    }
+        private void btnExport_Click(object sender, RoutedEventArgs e)
+        {
+            if(lvmessages.Items.Count > 0)
+            {
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Title = "Save";
+                saveDialog.Filter = "Text Files (*.txt)|*.txt";
+                saveDialog.FileName = "output";
+                if ((bool)saveDialog.ShowDialog())
+                {
+                    TextWriter tw = new StreamWriter(saveDialog.FileName);
 
+                    foreach (MessageCSV item in lvmessages.Items)
+                        tw.WriteLine(item.Contents);
+                    tw.Close();
+                    MessageBox.Show("File Exported");
+                }
+            }            
+        }
+
+    }
 }
 
