@@ -35,4 +35,4 @@ You can open messages from a channel by double clicking the channel and you can 
 * My bare hands ÒwÓ
 
 ## Author
-* Gabriel FM - Initial work - [HyperGabe](https://github.com/HyperGabe)
+* Gabriel FM - Initial work - [genki-ai](https://github.com/genki-ai)
