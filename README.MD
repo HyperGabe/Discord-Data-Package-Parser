@@ -9,6 +9,7 @@ This is an application that I have made using the WPF application with the [.NET
 
 ## Installation
 [Choose the latest release](https://github.com/genki-ai/Discord-Data-Package-Parser/releases/), and download DDPP.rar. This contains the executable and all dependencies.
+
 I hope you know how to extract a rar and run an executable.
 
 ## How to use
