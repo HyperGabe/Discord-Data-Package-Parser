@@ -7,6 +7,10 @@ An application that can parse through the discord data package onto a GUI to mak
 This is an application that I have made using the WPF application with the [.NET Framework 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework-runtime)  
 (This does mean it is currently only compatible for windows)
 
+## Installation
+[https://github.com/genki-ai/Discord-Data-Package-Parser/releases/](Choose the latest release), and download DDPP.rar. This contains the executable and all dependencies.
+I hope you know how to extract a rar and run an executable.
+
 ## How to use
 Using this application should be simple.  
 Start by opening the data package folder using the menu strip on the top, after that everything else is done.  
