@@ -21,8 +21,7 @@ You can open messages from a channel by double clicking the channel and you can 
 # Stuff to know
 * You will notice some channels called "null", these are channels that you have left/deleted/been kicked from. These names are not saved so it can not be displayed.  
 
-* ~~The channels are not linked to the servers they are from, this means it would not be possible to group the server channels up.~~
-It seems they've updated the data layout and it now includes the channel ID with their names, this will be implemented in the next update.
+* The channels are not linked to the servers they are from, this means it would not be possible to group the server channels up.
 
 # Planned features
 * Display attachments if an image - [Not completed]
