@@ -180,7 +180,7 @@ namespace Discord_Data_Package_Parser
         //##########----Message Loader----##########
         private void LoadMessages(string ID)
         {
-            string messageDIR = dataDIR + "/messages/" + ID;
+            string messageDIR = dataDIR + "/messages/c" + ID;
             if (File.Exists(messageDIR + "/messages.csv"))
             {
                 using (var reader = new StreamReader(messageDIR + "/messages.csv"))
