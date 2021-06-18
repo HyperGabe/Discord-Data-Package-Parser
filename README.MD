@@ -1,5 +1,13 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/p6reklem37iyf0on?svg=true)](https://ci.appveyor.com/project/HyperGabe/discord-data-package-parser)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/HyperGabe/DiscordBot-SCP-079/blob/master/LICENSE)
+
+# <ins>🟥SOON TO BE DEPRECATED🟥</ins>
+## I will not longer be supporting this as I am currently working on recreating this to support multiple platforms and the new data package format
+<br>
+<br>
+<br>
+<br>
+
 # Discord Data Package Parser
 An application that can parse through the discord data package onto a GUI to make it easier to read. [Learn more](https://support.discordapp.com/hc/en-us/articles/360004957991-Your-Discord-Data-Package)
 
